@@ -6,13 +6,12 @@ import com.codename1.charts.util.ColorUtil;
 
 public class Squirrel extends Movable implements ISteerable{
 	
-	Random random = new Random();
-	int steeringDirection = 0;
-	int maximumSpeed;
-	int energyLevel = 100;
-	int energyConsumptionRate = 5;
-	int damageLevel = 0;
-	int lastNutReached = 1;
+	private Random random = new Random();
+	private int steeringDirection = 0;
+	private int energyLevel = 100;
+	private int energyConsumptionRate = 5;
+	private int damageLevel = 0;
+	private int lastNutReached = 1;
 
 	public Squirrel() {
 		super(40, ColorUtil.GRAY);
@@ -29,9 +28,21 @@ public class Squirrel extends Movable implements ISteerable{
 	@Override
 	public void setColor(int r, int g, int b) {}
 	
+	public int getSteeringDirection() { return steeringDirection; }
+	public void setSteeringDirection(int sd) { steeringDirection = sd; }
+	public int getEnergyLevel() { return energyLevel; }
+	public void setEnergyLevel(int el) { energyLevel = el; }
+	public int getDamageLevel() { return damageLevel; }
+	public void setDamageLevel(int dl) { damageLevel = dl; }
 	
-	/*public void turnLeft() {
+	/*
+	public void turnLeft() {
+		steeringDirection += 5;
 		super.setHeading(super.getHeading()-steeringDirection);
-	}*/
+	}
+	public void turnRight() {
+		if(steeringDirection <= 40) { super.setHeading(super.getHeading() + steeringDirection); }
+	}
+	*/
 	
 }

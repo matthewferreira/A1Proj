@@ -33,8 +33,15 @@ public abstract class GameObject {
 	}
 	
 	public void setLocation(float x, float y) {
-		location.setX(x);
-		location.setY(y);
+		if(x >=0 && x<=1000) {
+			location.setX(x);
+		}
+		if(y >= 0 && y<= 1000) {
+			location.setY(y);
+			
+		}
+		
+		
 	}
 	
 	public int getColor() {
