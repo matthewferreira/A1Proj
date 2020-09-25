@@ -46,37 +46,46 @@ public class Game extends Form{
 						break;
 					//add code to handle rest of the commands
 					case 'a':
-						System.out.println("");
+						System.out.println("Accelerating player squirrel");
 						break;
 						
 					case 'b':
-						System.out.println("");
+						System.out.println("Applying Brakes");
 						break;
 					case 'l':
-						System.out.println("");
+						System.out.println("turning player squirrel left");
+						gw.getPlayer().turnLeft();
 						break;
 					case 'r':
-						System.out.println("");
+						System.out.println("turning player squirrel right");
+						gw.getPlayer().turnRight();
 						break;
 					case 'c':
-						System.out.println("");
+						System.out.println("player has collided with squirrel");
+						//squirrel.collide(Squirrel sq)
 						break;
 					case 'e':
-						System.out.println("");
+						System.out.println("player has collided with tomato");
+						//squirrel.collide(Tomato t)
 						break;
 					case 'g':
-						System.out.println("");
+						//squirrel.collide(Bird b)
+						System.out.println("player has collided with bird");
 						break;
 					case 't':
-						System.out.println("");
+						System.out.println("increased game clock");
+						gw.tick();
 						break;
 					case 'd':
-						System.out.println("");
+						System.out.println("display game world stats");
 						break;
 					case 'm':
 						System.out.println("");
 						break;
 						
+					default:
+						System.out.println("Improper input");
+						break;
 						
 						
 					} //switch

@@ -3,18 +3,18 @@ package com.mycompany.myapp;
 import com.codename1.charts.util.ColorUtil;
 
 public class Nut extends Fixed{
-	private static int objNumber = 1;
-	private int sequenceNumber = objNumber;
+	private static int objCount = 1;
+	private int sequenceNumber = objCount;
 	
 
 	public Nut() {
 		super(10, ColorUtil.BLACK);
-		objNumber++;
+		objCount++;
 	}
 	
 	public Nut(float x, float y) {
 		super(10, ColorUtil.BLACK, x, y);
-		objNumber++;
+		objCount++;
 	}
 	
 	
@@ -25,5 +25,8 @@ public class Nut extends Fixed{
 	@Override
 	public void setColor(int r, int g, int b){}
 	
+	public static int getObjCount() {
+		return objCount;
+	}
 	
 }

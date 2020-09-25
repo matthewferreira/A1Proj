@@ -1,13 +1,17 @@
 package com.mycompany.myapp;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class GameWorld {
 	private static int gameClock = 0;
-
-	private Squirrel squirrel1;
+	private Random random = new Random();
+	private ArrayList<GameObject> gameObjectList;
+	private int livesRemaining = 3;
+	
+	private Squirrel player;
 	public void init() {
-		ArrayList<GameObject> gameObjectList = new ArrayList<GameObject>();
+		gameObjectList = new ArrayList<GameObject>();
 		Nut nut1 = new Nut(50, 200);
 		Nut nut2 = new Nut(200, 275);
 		Nut nut3 = new Nut(500, 500);
@@ -16,13 +20,13 @@ public class GameWorld {
 		Bird bird2 = new Bird();
 		Tomato tomato1 = new Tomato();
 		Tomato tomato2 = new Tomato();
-		squirrel1 = new Squirrel(50, 200);
+		player = new Squirrel(50, 200);
 		
 		gameObjectList.add(nut1);
 		gameObjectList.add(nut2);
 		gameObjectList.add(nut3);
 		gameObjectList.add(nut4);
-		gameObjectList.add(squirrel1);
+		gameObjectList.add(player);
 		gameObjectList.add(bird1);
 		gameObjectList.add(bird2);
 		gameObjectList.add(tomato1);
@@ -46,22 +50,33 @@ public class GameWorld {
 			}
 		}
 		
-		for(int i = 0; i < 1000; i++) {
-			bird1.move();
-			System.out.println("Bird1 loc=" + bird1.getLocation().getX() + ", " + bird1.getLocation().getY() + " head=" + bird1.getHeading() + " spd=" + bird1.getSpeed());
-			
-			/*bird2.move();
-			System.out.println("Bird2 loc=" + bird2.getLocation().getX() + ", " + bird2.getLocation().getY() + " head=" + bird2.getHeading() + " spd=" + bird2.getSpeed()); */
-		}
-		
 	}
 	
 	public void tick() {
-		gameClock++;
 		
-		//if(squirrel1.getDamageLevel() > 0 && )
+		moveAll(gameObjectList);
+		reduceEnergy(player);
+		System.out.println("Player loc=" + player.getLocation().getX() + "," + player.getLocation().getY() + " steerDirection=" + player.getSteeringDirection() + " speed=" + player.getSpeed() + " head=" + player.getHeading() + " energyLevel=" + player.getEnergyLevel() + " lastNut=" + player.getLastNut());
+		gameClock++;
+		System.out.println("gameClock increase to " + gameClock);
 	}
 	
+	public void reduceEnergy(Squirrel s) {
+		s.reduceEnergyLevel();
+	}
+	
+	public void moveAll(ArrayList<GameObject> go) {
+		for(int i = 0; i < go.size(); i++) {
+			if(go.get(i) instanceof Movable) {
+				Movable mObj = (Movable)go.get(i);
+				mObj.move();
+			}
+		}
+	}
+	
+	public Squirrel getPlayer() {
+		return player;
+	}
 	public void exit() {
 		System.exit(0);
 	}

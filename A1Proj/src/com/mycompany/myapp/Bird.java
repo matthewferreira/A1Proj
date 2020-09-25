@@ -18,6 +18,7 @@ public class Bird extends Movable{
 	@Override
 	public void move() {
 		
+		
 		int heading = super.getHeading() - 5 + random.nextInt(10);
 		super.setHeading(heading);
 		
@@ -35,7 +36,6 @@ public class Bird extends Movable{
 			deltaX = (int) (Math.cos(Math.toRadians(90 - heading))*speed);
 			newX = (int) (super.getLocation().getX() + deltaX);
 		}
-		
 		else if(newX <= 0) {
 			super.setHeading(random.nextInt(359));
 			heading = super.getHeading();
