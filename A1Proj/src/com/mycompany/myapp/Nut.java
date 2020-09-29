@@ -6,28 +6,25 @@ public class Nut extends Fixed{
 	private static int objCount = 0;
 	private int sequenceNumber;
 	
-
 	public Nut() {
 		super(10, ColorUtil.YELLOW);
 		objCount++;
 		sequenceNumber = objCount;
 	}
-	
+	//constructor to specify nut locations
 	public Nut(float x, float y) {
 		super(10, ColorUtil.YELLOW, x, y);
 		objCount++;
 		sequenceNumber = objCount;
-		
 	}
-	
 	
 	public int getSeqNum() {
 		return sequenceNumber;
 	}
-	
+	//nuts cant change color
 	@Override
 	public void setColor(int r, int g, int b){}
-	
+	//used to determine last nut object
 	public static int getObjCount() {
 		return objCount;
 	}

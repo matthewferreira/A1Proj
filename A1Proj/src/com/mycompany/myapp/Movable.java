@@ -1,12 +1,14 @@
 package com.mycompany.myapp;
 
-
 public abstract class Movable extends GameObject{
 
 	private int heading;
 	private int speed;
 	
+	//construcor for objects with random locations
 	public Movable(int sz, int clr) {super(sz, clr);}
+	
+	//constructor for objects with specified locations
 	public Movable(int sz, int clr, float x, float y) {super(sz, clr, x, y);}
 	
 	public void move() {

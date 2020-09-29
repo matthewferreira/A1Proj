@@ -14,10 +14,9 @@ public class Bird extends Movable{
 		super.setSpeed(2 + random.nextInt(8));
 	}
 	
-	
+	// custom move function for bird
 	@Override
 	public void move() {
-		
 		
 		int heading = super.getHeading() - 5 + random.nextInt(10);
 		super.setHeading(heading);
@@ -30,7 +29,6 @@ public class Bird extends Movable{
 		int newY = (int) (super.getLocation().getY() + deltaY);
 		
 		if(newX >= 1000) {
-			
 			super.setHeading(random.nextInt(359));
 			heading = super.getHeading();
 			deltaX = (int) (Math.cos(Math.toRadians(90 - heading))*speed);
@@ -39,7 +37,7 @@ public class Bird extends Movable{
 		else if(newX <= 0) {
 			super.setHeading(random.nextInt(359));
 			heading = super.getHeading();
-			deltaX = (int) (Math.cos(Math.toRadians(90 - heading))*speed);
+			deltaX = (int) (Math.cos(Math.toRadians(90 - heading + 45))*speed);
 			newX = (int) (super.getLocation().getX() + deltaX);
 		}
 		
@@ -55,11 +53,6 @@ public class Bird extends Movable{
 			deltaY = (int) (Math.cos(Math.toRadians(90 - heading + 45))*speed);
 			newY = (int) (super.getLocation().getY() + deltaY);
 		}
-		
-		
-		
 		super.setLocation(newX, newY);
 	}
-
-	
 }

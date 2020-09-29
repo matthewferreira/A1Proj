@@ -4,14 +4,12 @@ import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.Label;
 import com.codename1.ui.TextField;
 import com.codename1.ui.events.ActionEvent;
-import java.lang.String;
-import java.util.ArrayList;
-import java.util.Random;
 
 public class Game extends Form{
 
-	private Random random = new Random();
 	private GameWorld gw;
+	
+	//game constructor
 	public Game() {
 		gw = new GameWorld();
 		gw.init();
@@ -31,6 +29,7 @@ public class Game extends Form{
 			public void actionPerformed(ActionEvent evt) {
 				String sCommand=myTextField.getText().toString();
 				myTextField.clear();
+				int totalNuts = gw.getObjsOfType("nut", gw.getObjectList()).size();
 				if(sCommand.length() != 0)
 					switch (sCommand.charAt(0)) {
 					//player requesting to exit game
@@ -106,58 +105,85 @@ public class Game extends Form{
 						break;
 						//retrieving all nut Objects, colliding player squirrel with given nut number
 					case '1':
-						if(gw.getObjsOfType("nut", gw.getObjectList()).size() >= 1) { 
+						if(totalNuts >= 1) { 
 							System.out.println("collided with nut 1");
 							gw.getPlayer().collide(gw.getObjsOfType("nut", gw.getObjectList()).get(0)); 
 							}
+						else {
+							System.out.println("there are only " + totalNuts + " to collide with");
+						}
 						break;
 					case '2':
-						if(gw.getObjsOfType("nut", gw.getObjectList()).size() >= 2) { 
+						if(totalNuts >= 2) { 
 							System.out.println("collided with nut 2");
 							gw.getPlayer().collide(gw.getObjsOfType("nut", gw.getObjectList()).get(1)); 
 							}
+						else {
+							System.out.println("there are only " + totalNuts + " to collide with");
+						}
 						break;
 					case '3':
-						if(gw.getObjsOfType("nut", gw.getObjectList()).size() >= 3) { 
+						if(totalNuts >= 3) { 
 							System.out.println("collided with nut 3");
 							gw.getPlayer().collide(gw.getObjsOfType("nut", gw.getObjectList()).get(2)); 
 							}
+						else {
+							System.out.println("there are only " + totalNuts + " to collide with");
+						}
 						break;
 					case '4':
-						if(gw.getObjsOfType("nut", gw.getObjectList()).size() >= 4) { 
+						if(totalNuts >= 4) { 
 							System.out.println("collided with nut 4");
 							gw.getPlayer().collide(gw.getObjsOfType("nut", gw.getObjectList()).get(3)); 
 							}
+						else {
+							System.out.println("there are only " + totalNuts + " to collide with");
+						}
 						break;
 					case '5':
-						if(gw.getObjsOfType("nut", gw.getObjectList()).size() >= 5) { 
+						if(totalNuts >= 5) { 
 							System.out.println("collided with nut 5");
 							gw.getPlayer().collide(gw.getObjsOfType("nut", gw.getObjectList()).get(4)); 
 							}
+						else {
+							System.out.println("there are only " + totalNuts + " to collide with");
+						}
 						break;
 					case '6':
-						if(gw.getObjsOfType("nut", gw.getObjectList()).size() >= 6) { 
+						if(totalNuts >= 6) { 
 							System.out.println("collided with nut 6");
 							gw.getPlayer().collide(gw.getObjsOfType("nut", gw.getObjectList()).get(5)); 
 							}
+						else {
+							System.out.println("there are only " + totalNuts + " to collide with");
+						}
 						break;
 					case '7':
-						if(gw.getObjsOfType("nut", gw.getObjectList()).size() >= 7) { 
+						if(totalNuts >= 7) { 
 							System.out.println("collided with nut 7");
 							gw.getPlayer().collide(gw.getObjsOfType("nut", gw.getObjectList()).get(6)); 
 							}
+						else {
+							System.out.println("there are only " + totalNuts + " to collide with");
+						}
 						break;
 					case '8':
-						if(gw.getObjsOfType("nut", gw.getObjectList()).size() >= 8) { 
+						if(totalNuts >= 8) { 
 							System.out.println("collided with nut 8");
 							gw.getPlayer().collide(gw.getObjsOfType("nut", gw.getObjectList()).get(7)); 
 							}
+						else {
+							System.out.println("there are only " + totalNuts + " to collide with");
+						}
 						break;
 					case '9':
-						if(gw.getObjsOfType("nut", gw.getObjectList()).size() >= 9) { 
+						if(totalNuts >= 9) { 
 							System.out.println("collided with nut 9");
 							gw.getPlayer().collide(gw.getObjsOfType("nut", gw.getObjectList()).get(8)); 
 							}
+						else {
+							System.out.println("there are only " + totalNuts + " to collide with");
+						}
 						break;
 						
 					default:

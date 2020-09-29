@@ -14,19 +14,20 @@ public class Squirrel extends Movable implements ISteerable{
 	private int lastNutReached = 1;
 	private int maximumSpeed = 40;
 	private static int maxDamage = 10;
-
+	
+	// basic squirrel constructor for npc squirrels
 	public Squirrel() {
 		super(40, ColorUtil.GRAY);
 		super.setSpeed(5 + random.nextInt(5));
 		super.setHeading(random.nextInt(359));
 	}
-	
+	//constructor for player squirrel to specify start location
 	public Squirrel(float x, float y) {
 		super(40, ColorUtil.GRAY, x, y);
 		super.setSpeed(5);
 		super.setHeading(0);
 	}
-	
+	//getters and setters for squirrel vars
 	public int getSteeringDirection() { return steeringDirection; }
 	public void setSteeringDirection(int sd) { steeringDirection = sd; }
 	public int getEnergyLevel() { return energyLevel; }
@@ -38,12 +39,18 @@ public class Squirrel extends Movable implements ISteerable{
 	public int getLastNut() { return lastNutReached; }
 	public void setLastNut(int ls) { lastNutReached = ls; }
 	
+	//reduces energy level of squirrel by energyConsumptionRate
 	public void reduceEnergyLevel() { energyLevel -= energyConsumptionRate; }
 	
+	//set speed of squirrel if within maxSpeed limit
+	@Override
+	public void setSpeed(int spd) {if(spd <= maximumSpeed) { super.setSpeed(spd);} }
+	
+	//method to move squirrel. keeps squirrel between 0 and 1000 on x and y coordinates
 	@Override
 	public void move() {
 		
-		if(energyLevel > 0 && damageLevel < 5) {
+		if(energyLevel > 0 && damageLevel < maxDamage) {
 			int head = super.getHeading() + steeringDirection;
 			int deltaX = (int) (Math.cos(Math.toRadians(90 - head))*super.getSpeed());
 			int deltaY = (int) (Math.sin(Math.toRadians(90 - head))*super.getSpeed());
@@ -51,31 +58,36 @@ public class Squirrel extends Movable implements ISteerable{
 			int newX = (int) (super.getLocation().getX() + deltaX);
 			int newY = (int) (super.getLocation().getY() + deltaY);
 			
-			if(newX > 1000) {newX = 1000;}
-			else if(newX < 0) {newX = 0;}
-			if(newY > 1000) {newY = 1000;}
-			else if(newY < 0) {newY = 0;}
+			//keeping squirrel within 0 and 1000 boundaries
+			if(newX > 1000) { newX = 1000; }
+			else if(newX < 0) { newX = 0; }
+			if(newY > 1000) { newY = 1000; }
+			else if(newY < 0) { newY = 0; }
 			
 			super.setLocation(newX, newY);
 		}
-		else if(energyLevel <= 0 || damageLevel >=5) {
+		//set speed to zero if at max damage or out of energy
+		else if(energyLevel <= 0 || damageLevel >=maxDamage) {
 			super.setSpeed(0);
 		}
 	}
-	
+	//turn squirrel left
 	public void turnLeft() {
 		steeringDirection -= 5;
+		// check if steer direction < -40, if so then = -40
 		if(steeringDirection < -40) {steeringDirection = -40;}
 		super.setHeading(super.getHeading()+steeringDirection);
 	}
-	
+	//turn squirrel right
 	public void turnRight() {
 		steeringDirection += 5;
+		//check if steer direction > 40, if so then = 40
 		if(steeringDirection > 40) {steeringDirection = 40;}
 		super.setHeading(super.getHeading() + steeringDirection);
 	}
-	
+	//collide squirrel with a game object, does different things based on which object
 	public void collide(GameObject g) {
+		//if collides with bird, dmgLevel + 1, set new max speed, change speed, fade color
 		if(g instanceof Bird) {
 			damageLevel += 1;
 			maximumSpeed = (int) (maximumSpeed*(1-damageLevel*0.1));
@@ -84,6 +96,7 @@ public class Squirrel extends Movable implements ISteerable{
 			}
 			fadeColor();
 		}
+		//if collides with squirrel, dmgLevel + 2, set new max speed, change speed, fade color
 		else if(g instanceof Squirrel) {
 			damageLevel += 2;
 			maximumSpeed = (int) (maximumSpeed*(1-damageLevel*0.1));
@@ -92,6 +105,7 @@ public class Squirrel extends Movable implements ISteerable{
 			}
 			fadeColor();
 		}
+		//if collides with nut, check if nut is in order, check if nut is last nut and end game
 		else if(g instanceof Nut) {
 			Nut nut = (Nut)g;
 			if(lastNutReached + 1 == nut.getSeqNum()) {
@@ -101,16 +115,20 @@ public class Squirrel extends Movable implements ISteerable{
 				GameWorld.youWin();
 			}
 		}
+		//if collides with tomato, energyLevel + nutrition of tomato
 		else if(g instanceof Tomato) {
 			energyLevel += ((Tomato) g).getNutrition();
 		}
 	}
+	//increase squirrel speed by 2
 	public void accelerate() {
 		setSpeed(super.getSpeed() + 2);
 	}
+	//decrease squirrel speed by 2
 	public void brake() {
 		if(super.getSpeed()-2 >= 0) { setSpeed(super.getSpeed()-2); }
 	}
+	//fade color of squirrel based on damage level
 	public void fadeColor() {
 		int newRed;
 		int newBlue;
@@ -128,6 +146,4 @@ public class Squirrel extends Movable implements ISteerable{
 		setColor(newRed, newGreen, newBlue);
 	}
 	
-	@Override
-	public void setSpeed(int spd) {if(spd <= maximumSpeed) { super.setSpeed(spd);} }
 }

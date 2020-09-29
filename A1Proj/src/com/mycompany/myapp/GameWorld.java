@@ -9,25 +9,17 @@ public class GameWorld {
 	private ArrayList<GameObject> gameObjectList;
 	private int livesRemaining = 3;
 	private Squirrel player;
-	private Nut nut1;
-	private Nut nut2;
-	private Nut nut3;
-	private Nut nut4;
-	private Bird bird1;
-	private Bird bird2;
-	private Tomato tomato1;
-	private Tomato tomato2;
 	
 	public void init() {
 		gameObjectList = new ArrayList<GameObject>();
-		nut1 = new Nut(50, 200);
-		nut2 = new Nut(200, 275);
-		nut3 = new Nut(500, 500);
-		nut4 = new Nut(750, 750);
-		bird1 = new Bird();
-		bird2 = new Bird();
-		tomato1 = new Tomato();
-		tomato2 = new Tomato();
+		Nut nut1 = new Nut(50, 200);
+		Nut nut2 = new Nut(200, 275);
+		Nut nut3 = new Nut(500, 500);
+		Nut nut4 = new Nut(750, 750);
+		Bird bird1 = new Bird();
+		Bird bird2 = new Bird();
+		Tomato tomato1 = new Tomato();
+		Tomato tomato2 = new Tomato();
 		player = new Squirrel(50, 200);
 		
 		gameObjectList.add(nut1);
@@ -41,14 +33,20 @@ public class GameWorld {
 		gameObjectList.add(tomato2);
 	}
 	
+	//move all objects, reduce squirrel energy, increase gameclock, check if squirrel out of energy (if so, loseLife())
 	public void tick() {
 		moveAll(gameObjectList);
 		getPlayer().reduceEnergyLevel();
 		System.out.println("Player loc=" + player.getLocation().getX() + "," + player.getLocation().getY() + " steerDirection=" + player.getSteeringDirection() + " speed=" + player.getSpeed() + " head=" + player.getHeading() + " energyLevel=" + player.getEnergyLevel() + " lastNut=" + player.getLastNut());
 		gameClock++;
 		System.out.println("gameClock increase to " + gameClock);
+		if(getPlayer().getEnergyLevel() <= 0) {
+			System.out.println("Ran out of energy!");
+			loseLife();
+			}
 	}
 	
+	//move all objects in GameWorld
 	public void moveAll(ArrayList<GameObject> go) {
 		for(int i = 0; i < go.size(); i++) {
 			if(go.get(i) instanceof Movable) {
@@ -57,9 +55,10 @@ public class GameWorld {
 			}
 		}
 	}
-	
+	//returns list of all GameObjects
 	public ArrayList<GameObject> getObjectList() {return gameObjectList;}
 	
+	//method returns list with all GameObjects of the specified type
 	public ArrayList<GameObject> getObjsOfType(String type, ArrayList<GameObject> go){
 		ArrayList<GameObject> allObjOfType = new ArrayList<GameObject>();
 		switch(type) {
@@ -94,11 +93,10 @@ public class GameWorld {
 			
 		default:
 			System.out.println("Invalid Input. Valid inputs are 'squirrel', 'bird', 'nut', 'tomato'");
-			
 		}
 		return allObjOfType;
 	}
-	
+	//display game stats
 	public void display() {
 		System.out.println("livesRemaining=" + getLivesRemaining());
 		System.out.println("gameClock=" + getGameClock());
@@ -106,6 +104,7 @@ public class GameWorld {
 		System.out.println("energyLevel=" + getPlayer().getEnergyLevel());
 		System.out.println("damageLevel=" + getPlayer().getDamageLevel());
 	}
+	//print game map
 	public void printMap() {
 		System.out.println("Displaying Map");
 		for(int i = 0; i < gameObjectList.size(); i++) {
@@ -125,15 +124,15 @@ public class GameWorld {
 			else if(gameObjectList.get(i) instanceof Tomato) {
 				Tomato tomObj = (Tomato)gameObjectList.get(i);
 				System.out.println("Tomato: loc=" + tomObj.getLocation().getX() + ", " + tomObj.getLocation().getY() + " color=" + tomObj.printColor() + " size=" + tomObj.getSize() + " nutrition=" + tomObj.getNutrition());
-				
 			}
 		}
-		
 	}
+	//add tomato to gameworld
 	public void addTomato() {
 		Tomato newTomato = new Tomato();
 		getObjectList().add(newTomato);
 	}
+	//collide random tomato with squirrel, add new tomato
 	public Tomato collideTomato() {
 		
 		int size = getObjsOfType("tomato", getObjectList()).size();
@@ -145,6 +144,7 @@ public class GameWorld {
 	}
 	public int getLivesRemaining() {return livesRemaining;}
 	
+	//decrements remaining lives, re-inits GameWorld,  ends game if none left
 	public void loseLife() {
 		livesRemaining--;
 		System.out.println("You lost a life! " + getLivesRemaining() + " lives remaining.");
@@ -156,13 +156,14 @@ public class GameWorld {
 			exit();
 		}
 	}
+	//ends game with victory
 	public static void youWin() {
 		System.out.println("Game over, you win! Total Time: " + gameClock);
 		exit();
 	}
 	public int getGameClock() {return gameClock;}
+	
+	//gets player squirrel
 	public Squirrel getPlayer() {return player;}
 	public static void exit() {System.exit(0);}
-	
-	
 }
