@@ -5,9 +5,12 @@ import com.codename1.ui.Label;
 import com.codename1.ui.TextField;
 import com.codename1.ui.events.ActionEvent;
 import java.lang.String;
+import java.util.ArrayList;
+import java.util.Random;
 
 public class Game extends Form{
 
+	private Random random = new Random();
 	private GameWorld gw;
 	public Game() {
 		gw = new GameWorld();
@@ -30,64 +33,136 @@ public class Game extends Form{
 				myTextField.clear();
 				if(sCommand.length() != 0)
 					switch (sCommand.charAt(0)) {
+					//player requesting to exit game
 					case 'x':
-						
 						myLabel.setText("Exit? y/n");
 						wantToExit = true;
 						break;
-						
+						//confirm exiting of game
 					case'y':
-						if(wantToExit == true)
-						gw.exit();
+						if(wantToExit) {
+							gw.exit();
+						}
 						break;
+						//cancel exiting of game
 					case 'n':
 						wantToExit = false;
 						myLabel.setText("Enter a Command:");
 						break;
-					//add code to handle rest of the commands
+						//accelerating player squirrel
 					case 'a':
 						System.out.println("Accelerating player squirrel");
+						gw.getPlayer().accelerate();
 						break;
-						
+						//applying brakes to player squirrel
 					case 'b':
 						System.out.println("Applying Brakes");
+						gw.getPlayer().brake();
 						break;
+						//turn player squirrel left
 					case 'l':
 						System.out.println("turning player squirrel left");
 						gw.getPlayer().turnLeft();
 						break;
+						//turn player squirrel right
 					case 'r':
 						System.out.println("turning player squirrel right");
 						gw.getPlayer().turnRight();
 						break;
+						//colliding player squirrel with self (since no other squirrels created)
 					case 'c':
 						System.out.println("player has collided with squirrel");
-						//squirrel.collide(Squirrel sq)
+						gw.getPlayer().collide(gw.getPlayer());
+						if(gw.getPlayer().getDamageLevel() >=10) {
+							gw.loseLife();
+						}
 						break;
+						//colliding player squirrel with random tomato object
 					case 'e':
 						System.out.println("player has collided with tomato");
-						//squirrel.collide(Tomato t)
+						gw.getPlayer().collide(gw.collideTomato());
 						break;
+						//colliding player squirrel with bird object
 					case 'g':
-						//squirrel.collide(Bird b)
 						System.out.println("player has collided with bird");
+						gw.getPlayer().collide(gw.getObjsOfType("bird", gw.getObjectList()).get(0));
+						if(gw.getPlayer().getDamageLevel() >=10) {
+							gw.loseLife();
+						}
 						break;
+						// increasing gameClock
 					case 't':
 						System.out.println("increased game clock");
 						gw.tick();
 						break;
+						//display gameWorld stats
 					case 'd':
-						System.out.println("display game world stats");
+						System.out.println("displaying game world stats");
+						gw.display();
 						break;
+						// print map
 					case 'm':
-						System.out.println("");
+						gw.printMap();
+						break;
+						//retrieving all nut Objects, colliding player squirrel with given nut number
+					case '1':
+						if(gw.getObjsOfType("nut", gw.getObjectList()).size() >= 1) { 
+							System.out.println("collided with nut 1");
+							gw.getPlayer().collide(gw.getObjsOfType("nut", gw.getObjectList()).get(0)); 
+							}
+						break;
+					case '2':
+						if(gw.getObjsOfType("nut", gw.getObjectList()).size() >= 2) { 
+							System.out.println("collided with nut 2");
+							gw.getPlayer().collide(gw.getObjsOfType("nut", gw.getObjectList()).get(1)); 
+							}
+						break;
+					case '3':
+						if(gw.getObjsOfType("nut", gw.getObjectList()).size() >= 3) { 
+							System.out.println("collided with nut 3");
+							gw.getPlayer().collide(gw.getObjsOfType("nut", gw.getObjectList()).get(2)); 
+							}
+						break;
+					case '4':
+						if(gw.getObjsOfType("nut", gw.getObjectList()).size() >= 4) { 
+							System.out.println("collided with nut 4");
+							gw.getPlayer().collide(gw.getObjsOfType("nut", gw.getObjectList()).get(3)); 
+							}
+						break;
+					case '5':
+						if(gw.getObjsOfType("nut", gw.getObjectList()).size() >= 5) { 
+							System.out.println("collided with nut 5");
+							gw.getPlayer().collide(gw.getObjsOfType("nut", gw.getObjectList()).get(4)); 
+							}
+						break;
+					case '6':
+						if(gw.getObjsOfType("nut", gw.getObjectList()).size() >= 6) { 
+							System.out.println("collided with nut 6");
+							gw.getPlayer().collide(gw.getObjsOfType("nut", gw.getObjectList()).get(5)); 
+							}
+						break;
+					case '7':
+						if(gw.getObjsOfType("nut", gw.getObjectList()).size() >= 7) { 
+							System.out.println("collided with nut 7");
+							gw.getPlayer().collide(gw.getObjsOfType("nut", gw.getObjectList()).get(6)); 
+							}
+						break;
+					case '8':
+						if(gw.getObjsOfType("nut", gw.getObjectList()).size() >= 8) { 
+							System.out.println("collided with nut 8");
+							gw.getPlayer().collide(gw.getObjsOfType("nut", gw.getObjectList()).get(7)); 
+							}
+						break;
+					case '9':
+						if(gw.getObjsOfType("nut", gw.getObjectList()).size() >= 9) { 
+							System.out.println("collided with nut 9");
+							gw.getPlayer().collide(gw.getObjsOfType("nut", gw.getObjectList()).get(8)); 
+							}
 						break;
 						
 					default:
 						System.out.println("Improper input");
 						break;
-						
-						
 					} //switch
 			} //actionPerformed
 		} //new ActionListener()

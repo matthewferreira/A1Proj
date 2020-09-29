@@ -3,18 +3,21 @@ package com.mycompany.myapp;
 import com.codename1.charts.util.ColorUtil;
 
 public class Nut extends Fixed{
-	private static int objCount = 1;
-	private int sequenceNumber = objCount;
+	private static int objCount = 0;
+	private int sequenceNumber;
 	
 
 	public Nut() {
-		super(10, ColorUtil.BLACK);
+		super(10, ColorUtil.YELLOW);
 		objCount++;
+		sequenceNumber = objCount;
 	}
 	
 	public Nut(float x, float y) {
-		super(10, ColorUtil.BLACK, x, y);
+		super(10, ColorUtil.YELLOW, x, y);
 		objCount++;
+		sequenceNumber = objCount;
+		
 	}
 	
 	

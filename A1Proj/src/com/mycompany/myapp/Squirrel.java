@@ -13,6 +13,7 @@ public class Squirrel extends Movable implements ISteerable{
 	private int damageLevel = 0;
 	private int lastNutReached = 1;
 	private int maximumSpeed = 40;
+	private static int maxDamage = 10;
 
 	public Squirrel() {
 		super(40, ColorUtil.GRAY);
@@ -25,9 +26,6 @@ public class Squirrel extends Movable implements ISteerable{
 		super.setSpeed(5);
 		super.setHeading(0);
 	}
-	
-	@Override
-	public void setColor(int r, int g, int b) {}
 	
 	public int getSteeringDirection() { return steeringDirection; }
 	public void setSteeringDirection(int sd) { steeringDirection = sd; }
@@ -63,8 +61,6 @@ public class Squirrel extends Movable implements ISteerable{
 		else if(energyLevel <= 0 || damageLevel >=5) {
 			super.setSpeed(0);
 		}
-		
-		
 	}
 	
 	public void turnLeft() {
@@ -78,25 +74,60 @@ public class Squirrel extends Movable implements ISteerable{
 		if(steeringDirection > 40) {steeringDirection = 40;}
 		super.setHeading(super.getHeading() + steeringDirection);
 	}
+	
 	public void collide(GameObject g) {
 		if(g instanceof Bird) {
 			damageLevel += 1;
-			//maximumSpeed = maximumSpeed*(damageLevel / 5);
+			maximumSpeed = (int) (maximumSpeed*(1-damageLevel*0.1));
+			if(super.getSpeed() > getMaximumSpeed()) {
+				setSpeed(maximumSpeed);
+			}
+			fadeColor();
 		}
-		if(g instanceof Squirrel) {
-			damageLevel += 1;
+		else if(g instanceof Squirrel) {
+			damageLevel += 2;
+			maximumSpeed = (int) (maximumSpeed*(1-damageLevel*0.1));
+			if(super.getSpeed() > getMaximumSpeed()) {
+				setSpeed(maximumSpeed);
+			}
+			fadeColor();
 		}
-		if(g instanceof Nut) {
+		else if(g instanceof Nut) {
 			Nut nut = (Nut)g;
-			if(++lastNutReached == nut.getSeqNum()) {
+			if(lastNutReached + 1 == nut.getSeqNum()) {
 				lastNutReached = nut.getSeqNum();
 			}
+			if(lastNutReached == Nut.getObjCount()) {
+				GameWorld.youWin();
+			}
 		}
-		
+		else if(g instanceof Tomato) {
+			energyLevel += ((Tomato) g).getNutrition();
+		}
+	}
+	public void accelerate() {
+		setSpeed(super.getSpeed() + 2);
+	}
+	public void brake() {
+		if(super.getSpeed()-2 >= 0) { setSpeed(super.getSpeed()-2); }
+	}
+	public void fadeColor() {
+		int newRed;
+		int newBlue;
+		int newGreen;
+		if(getSpeed() == 0) {
+			newRed = 0;
+			newBlue = 0;
+			newGreen = 0;
+		}
+		else {
+			newRed = (int) (ColorUtil.red(getColor()) * (1-damageLevel*0.1));
+			newBlue = (int) (ColorUtil.blue(getColor()) * (1-damageLevel*0.1));
+			newGreen = (int) (ColorUtil.green(getColor()) * (1-damageLevel*0.1));
+		}
+		setColor(newRed, newGreen, newBlue);
 	}
 	
 	@Override
-	public void setSpeed(int spd) {if(spd < maximumSpeed) { super.setSpeed(spd);} }
-	
-	
+	public void setSpeed(int spd) {if(spd <= maximumSpeed) { super.setSpeed(spd);} }
 }

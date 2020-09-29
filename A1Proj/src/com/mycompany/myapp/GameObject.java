@@ -24,30 +24,26 @@ public abstract class GameObject {
 		location.setY(y);
 	}
 	
-	public int getSize() {
-		return size;
-	}
+	public int getSize() {return size;}
 	
-	public Point getLocation() {
-		return location;
-	}
+	public Point getLocation() {return location;}
 	
 	public void setLocation(float x, float y) {
 		if(x >=0 && x<=1000) {
 			location.setX(x);
 		}
 		if(y >= 0 && y<= 1000) {
-			location.setY(y);
-			
+			location.setY(y);	
 		}
-		
-		
 	}
 	
-	public int getColor() {
-		return color;
+	public int getColor() {return color;}
+	public String printColor() {
+		int red = ColorUtil.red(getColor());
+		int green = ColorUtil.green(getColor());
+		int blue = ColorUtil.blue(getColor());
+		return "[" + red + ", " + green + ", " + blue + "]";
 	}
-	public void setColor(int r, int g, int b) {
-		color = ColorUtil.rgb(r, g, b);
-	}
+	
+	public void setColor(int r, int g, int b) {color = ColorUtil.rgb(r, g, b);}
 }
